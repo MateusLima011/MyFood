@@ -31,7 +31,7 @@
             android:paddingEnd="@dimen/_20ssp"
             android:text="Get Started"
             android:textColor="@color/white"
-            android:visibility="invisible" />
+            />
 
         <ProgressBar
             android:id="@+id/loader"
