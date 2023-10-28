@@ -19,7 +19,7 @@ import pub.devrel.easypermissions.EasyPermissions
 class MainActivity : BaseActivity(), EasyPermissions.RationaleCallbacks,
     EasyPermissions.PermissionCallbacks {
 
-    private val mainViewModel by lazy { getMainViewModel() }
+    private val mainViewModel by lazy { getMainViewModel(this) }
     private val categoriesAdapter = MainCategoryAdapter()
     private val mealsAdapter = SubCategoryAdapter()
     private var READ_STORAGE = 123

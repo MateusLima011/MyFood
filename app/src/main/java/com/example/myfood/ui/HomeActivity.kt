@@ -14,7 +14,7 @@ import com.example.myfood.ui.viewdata.CategoryItemsState
 import com.example.myfood.ui.viewdata.MealState
 
 class HomeActivity : AppCompatActivity() {
-    val homeViewModel by lazy { getHomeViewModel() }
+    val homeViewModel by lazy { getHomeViewModel(this) }
 
     var mainCategoryAdapter = MainCategoryAdapter()
     var subCategoryAdapter = SubCategoryAdapter()

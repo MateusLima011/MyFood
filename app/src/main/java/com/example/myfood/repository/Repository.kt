@@ -1,22 +1,28 @@
 package com.example.myfood.repository
 
+import com.example.myfood.entities.toCategoryItems
 import com.example.myfood.interfaces.GetDataService
-import com.example.myfood.remote.response.CategoryItemsData
+import com.example.myfood.mappers.mapToViewData
+import com.example.myfood.remote.response.LocalDataSource
 import com.example.myfood.remote.response.MealSpecificData
 import com.example.myfood.remote.response.MealsItemsData
 import com.example.myfood.remote.response.RemoteDataSource
 import com.example.myfood.retrofit.RetrofitClientInstance
+import com.example.myfood.ui.viewdata.CategoriesViewData
 import java.io.IOException
 
 class Repository(
     private val remoteDataSource: RemoteDataSource,
-    //private val localDataSource: LocalDataSource?
+    private val localDataSource: LocalDataSource
 ) {
 
-    suspend fun getCategories(): Result<List<CategoryItemsData>> {
+    suspend fun getCategories(): Result<List<CategoriesViewData>> {
         try {
             val remoteCategories = remoteDataSource.getCategoryList().categories
-            return Result.success(remoteCategories)
+            localDataSource.insertCategory(remoteCategories.toCategoryItems())
+            val localCategories = localDataSource.getCategoriesFromLocal()
+            return Result.success(localCategories.mapToViewData())
+
         } catch (e: IOException) {
             throw DataFetchException("Failed to fetch categories", e)
         }

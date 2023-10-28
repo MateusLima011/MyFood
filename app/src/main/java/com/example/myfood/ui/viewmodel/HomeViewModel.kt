@@ -31,12 +31,7 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
             when (categoryItemState) {
                 is CategoryItemsState.Success -> {
                     _mainCategoryLiveData.postValue(categoryItemState)
-//                    if (categoryItemState.data.isNotEmpty()) {
-//                        val firstCategory = categoryItemState.data[0]
-//                        getMealDataFromDb(context, categories[0].strcategory)
-//                    }
                 }
-
                 is CategoryItemsState.Failure -> {
                     _mainCategoryLiveData.postValue(categoryItemState)
                 }
@@ -44,7 +39,7 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-   fun getMealDataFromDb(categoryName: String) {
+    fun getMealDataFromDb(categoryName: String) {
         viewModelScope.launch {
             val mealsResult = repository.getMeals(categoryName)
 

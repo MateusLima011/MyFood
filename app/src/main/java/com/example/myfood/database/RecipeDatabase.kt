@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myfood.dao.RecipeDao
-import com.example.myfood.entities.Category
 import com.example.myfood.entities.CategoryItems
 import com.example.myfood.entities.Meal
 import com.example.myfood.entities.MealsItems
@@ -16,8 +17,8 @@ import com.example.myfood.entities.converter.MealListConverter
 
 
 @Database(
-    entities = [Recipes::class, CategoryItems::class, Category::class, Meal::class, MealsItems::class],
-    version = 1,
+    entities = [Recipes::class, CategoryItems::class, Meal::class, MealsItems::class],
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(CategoryListConverter::class, MealListConverter::class)
@@ -26,48 +27,24 @@ abstract class RecipeDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDao
 
     companion object {
-        private var instance: RecipeDatabase? = null
-
-        fun getInstance(context: Context): RecipeDatabase {
-            return instance ?: synchronized(this) {
-                instance ?: buildDataBase(context).also { instance = it }
+        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE IF EXISTS Category")
             }
         }
+        @Volatile
+        private var INSTANCE: RecipeDatabase? = null
 
-        private fun buildDataBase(context: Context) =
-            Room.databaseBuilder(context, RecipeDatabase::class.java, "recipe.db").build()
-    }
-}
-/*
-@Database(
-    entities = [Recipes::class, CategoryItems::class, Category::class, Meal::class, MealsItems::class],
-    version = 1,
-    exportSchema = false
-)
-@TypeConverters(CategoryListConverter::class, MealListConverter::class)
-abstract class RecipeDatabase : RoomDatabase() {
-
-    companion object {
-        private var recipesDatabase: RecipeDatabase? = null
-
-        @Synchronized
-        fun getDatabase(context: Context): RecipeDatabase? {
-            recipesDatabase = Room.databaseBuilder(
-                context,
-                RecipeDatabase::class.java,
-                "recipe.db"
-            ).build()
-            return recipesDatabase
-//            if (recipesDatabase == null) {
-//                recipesDatabase = Room.databaseBuilder(
-//                    context,
-//                    RecipeDatabase::class.java,
-//                    "recipe.db"
-//                ).build()
-//            }
-//            return recipesDatabase!!
+        @JvmStatic
+        fun getDataBase(context: Context): RecipeDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext, RecipeDatabase::class.java, "recipe.db"
+                ).addMigrations(MIGRATION_1_2)
+                    .build()
+                INSTANCE = instance
+                instance
+            }
         }
     }
-
-    abstract fun recipeDao(): RecipeDao
-}*/
+}

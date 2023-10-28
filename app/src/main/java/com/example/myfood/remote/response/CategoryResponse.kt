@@ -1,5 +1,6 @@
 package com.example.myfood.remote.response
 
+import com.example.myfood.entities.CategoryItems
 import kotlinx.serialization.Serializable
 
 @Serializable

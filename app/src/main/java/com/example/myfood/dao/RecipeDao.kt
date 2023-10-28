@@ -13,10 +13,10 @@ interface RecipeDao {
     @Query("SELECT * FROM categoryitems ORDER BY id DESC")
     suspend fun getAllCategory(): List<CategoryItems>
 
-    @Query("SELECT * FROM MealItems WHERE categoryName = :categoryName ORDER BY id DESC")
+    @Query("SELECT * FROM mealitems WHERE categoryName = :categoryName ORDER BY id DESC")
     suspend fun getSpecificMealList(categoryName: String): List<MealsItems>
 
-    @Query("DELETE FROM categoryItems")
+    @Query("DELETE FROM categoryitems")
     suspend fun clearDb()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

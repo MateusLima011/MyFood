@@ -6,25 +6,15 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class CategoryListConverter {
+    private val gson = Gson()
+
     @TypeConverter
-    fun fromCategoryList(category: List<CategoryItems>?): String? {
-        if (category == null) {
-            return null
-        } else {
-            val gson = Gson()
-            val type = object : TypeToken<List<CategoryItems>>() {}.type
-            return gson.toJson(category, type)
-        }
+    fun fromCategoryList(category: List<CategoryItems>): String? {
+        return gson.toJson(category)
     }
 
     @TypeConverter
-    fun toCategoryList(categoryString: String?): List<CategoryItems>? {
-        if (categoryString == null) {
-            return null
-        } else {
-            val gson = Gson()
-            val type = object : TypeToken<List<CategoryItems>>() {}.type
-            return gson.fromJson(categoryString, type)
-        }
+    fun toCategoryList(categoryString: String): List<CategoryItems> {
+        return gson.fromJson(categoryString, object : TypeToken<List<CategoryItems>>() {}.type)
     }
 }

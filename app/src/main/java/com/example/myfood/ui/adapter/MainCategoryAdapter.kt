@@ -1,6 +1,5 @@
 package com.example.myfood.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,19 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myfood.R
-import com.example.myfood.entities.Category
-import com.example.myfood.entities.CategoryItems
-import com.example.myfood.entities.Recipes
-import com.example.myfood.remote.response.CategoryItemsData
+import com.example.myfood.ui.viewdata.CategoriesViewData
 
 class MainCategoryAdapter : RecyclerView.Adapter<MainCategoryAdapter.RecipeViewHolder>() {
 
-    var arrMainCategory = ArrayList<CategoryItemsData>()
+    var arrMainCategory = mutableListOf<CategoriesViewData>()
     var listerner: OnItemClickListener? = null
 
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
 
-    fun setData(arrData: List<CategoryItemsData>) {
+    fun setData(arrData: List<CategoriesViewData>) {
         arrMainCategory.clear()
         arrMainCategory.addAll(arrData)
     }
@@ -45,14 +41,14 @@ class MainCategoryAdapter : RecyclerView.Adapter<MainCategoryAdapter.RecipeViewH
         val tvDishName: TextView = holder.itemView.findViewById(R.id.tv_dish_name)
         val imgDish: ImageView = holder.itemView.findViewById(R.id.img_dish)
 
-        tvDishName.text = arrMainCategory[position].strCategory
+        tvDishName.text = arrMainCategory[position].category
 
         Glide
             .with(holder.itemView.context)
-            .load(arrMainCategory[position].strCategoryThumb)
+            .load(arrMainCategory[position].categoryThumb)
             .into(imgDish)
 
-        holder.itemView.rootView.setOnClickListener { listerner!!.onClicked(arrMainCategory[position].strCategory) }
+        holder.itemView.rootView.setOnClickListener { listerner!!.onClicked(arrMainCategory[position].category) }
     }
 
     interface OnItemClickListener {

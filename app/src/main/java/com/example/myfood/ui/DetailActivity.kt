@@ -15,7 +15,7 @@ class DetailActivity : AppCompatActivity() {
         ActivityDetailBinding.inflate(layoutInflater).apply { setContentView(root) }
     }
 
-    val homeViewModel by lazy { getDetailsViewModel() }
+    val homeViewModel by lazy { getDetailsViewModel(this) }
 
     var youtubeLink = ""
     override fun onCreate(savedInstanceState: Bundle?) {

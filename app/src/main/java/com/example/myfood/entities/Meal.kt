@@ -8,17 +8,13 @@ import com.example.myfood.entities.converter.ListConverter
 import com.example.myfood.entities.converter.MealListConverter
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
 @Entity(tableName = "Meal")
+@Serializable
 class Meal(
-
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
-
-    @ColumnInfo(name = "meals")
-    @Expose
-    @SerializedName("meals")
-    @TypeConverters(ListConverter::class)
-    var mealsItem: List<MealsItems>? = null
-
+    var id: Int? = null,
+    val categoryName: String,
+    var meals: List<MealsItems>
 )
