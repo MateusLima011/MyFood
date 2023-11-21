@@ -13,7 +13,7 @@ data class CategoryItems(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id") val id: Int? = null,
     @ColumnInfo("idcategory") val idCategory: String,
-    @ColumnInfo("strcategory") val category: String,
+    @ColumnInfo("strcategory") var category: String,
     @ColumnInfo("strcategorythumb") val categoryThumb: String,
     @ColumnInfo("strcategorydescription") val categoryDescription: String
 )

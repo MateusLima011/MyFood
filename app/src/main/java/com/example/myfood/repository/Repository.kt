@@ -1,6 +1,7 @@
 package com.example.myfood.repository
 
 import com.example.myfood.entities.toCategoryItems
+import com.example.myfood.entities.toMealsItems
 import com.example.myfood.interfaces.GetDataService
 import com.example.myfood.mappers.mapToViewData
 import com.example.myfood.remote.response.LocalDataSource
@@ -19,10 +20,15 @@ class Repository(
     suspend fun getCategories(): Result<List<CategoriesViewData>> {
         try {
             val remoteCategories = remoteDataSource.getCategoryList().categories
-            localDataSource.insertCategory(remoteCategories.toCategoryItems())
-            val localCategories = localDataSource.getCategoriesFromLocal()
-            return Result.success(localCategories.mapToViewData())
-
+            val existingCategories = localDataSource.getCategoriesFromLocal()
+            val (_, newCategories) = remoteCategories.partition { remoteCategory ->
+                existingCategories.none { it.idCategory == remoteCategory.idCategory }
+            }
+            if (newCategories.isNotEmpty()) {
+                localDataSource.insertCategory(newCategories.toCategoryItems())
+            }
+            val updateCategories = localDataSource.getCategoriesFromLocal()
+            return Result.success(updateCategories.mapToViewData())
         } catch (e: IOException) {
             throw DataFetchException("Failed to fetch categories", e)
         }
@@ -32,8 +38,20 @@ class Repository(
         val apiService: GetDataService =
             RetrofitClientInstance.retrofitInstance.create(GetDataService::class.java)
         try {
+            localDataSource.clearDbMeal()
             val remoteMeals = remoteDataSource.getMealList(apiService, categoryName).meals
-            return Result.success(remoteMeals)
+            val existingMeals = localDataSource.getMealsFromLocal(categoryName)
+            val newMeals = remoteMeals.filter { remoteMeal ->
+                existingMeals.none { it.idMeal == remoteMeal.idMeal }
+            }
+
+            if (newMeals.isNotEmpty()) {
+                localDataSource.insertMeal(newMeals.toMealsItems(categoryName))
+            }
+            val updateMeals = localDataSource.getMealsFromLocal(categoryName)
+            /*localDataSource.insertMeal(remoteMeals.toMealsItems(categoryName))
+            val localMeals = localDataSource.getMealsFromLocal(categoryName)*/
+            return Result.success(updateMeals.mapToViewData(categoryName))
         } catch (e: IOException) {
             throw DataFetchException("Failed to fetch meals", e)
         }

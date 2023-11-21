@@ -14,15 +14,24 @@ class LocalDataSource(private val recipeDao: RecipeDao) {
         recipeDao.insertCategory(categories)
     }
 
-    suspend fun getSpecificMealList(categoryName: String): List<MealsItems> {
-        return recipeDao.getSpecificMealList(categoryName)
+    suspend fun getMealsFromLocal(categoryName: String): List<MealsItems> {
+        return recipeDao.getMealList(categoryName)
     }
 
     suspend fun insertMeal(meals: List<MealsItems>) {
         recipeDao.insertMeal(meals)
     }
+    /*
+        suspend fun getSpecificMealList(categoryName: String): List<MealsItems> {
+            return recipeDao.getSpecificMealList(categoryName)
+        }
+    */
 
     suspend fun clearDb() {
         recipeDao.clearDb()
+    }
+
+    suspend fun clearDbMeal() {
+        recipeDao.clearDbMeal()
     }
 }

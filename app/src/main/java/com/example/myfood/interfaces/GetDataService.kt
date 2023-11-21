@@ -1,11 +1,8 @@
 package com.example.myfood.interfaces
 
-import com.example.myfood.entities.Meal
 import com.example.myfood.remote.response.CategoryResponse
-import com.example.myfood.remote.response.MealSpecificData
 import com.example.myfood.remote.response.MealSpecificResponse
 import com.example.myfood.remote.response.MealsResponse
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 

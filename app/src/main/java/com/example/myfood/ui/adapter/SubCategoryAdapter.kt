@@ -15,8 +15,8 @@ import com.example.myfood.remote.response.MealsItemsData
 
 class SubCategoryAdapter : RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHolder>() {
 
-    var ctx: Context? = null
-    var arrSubCategory = ArrayList<MealsItemsData>()
+    private lateinit var context: Context
+    private var arrSubCategory = ArrayList<MealsItemsData>()
     var listerner: OnItemClickListener? = null
 
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {}
@@ -30,7 +30,7 @@ class SubCategoryAdapter : RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHol
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
-        ctx = parent.context
+        context = parent.context
         return RecipeViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_rv_sub_category, parent, false)
@@ -48,7 +48,7 @@ class SubCategoryAdapter : RecyclerView.Adapter<SubCategoryAdapter.RecipeViewHol
         val imgDish: ImageView = holder.itemView.findViewById(R.id.img_dish_sub)
 
         Glide
-            .with(ctx!!)
+            .with(context)
             .load(arrSubCategory[position].strMealThumb)
             .into(imgDish)
 

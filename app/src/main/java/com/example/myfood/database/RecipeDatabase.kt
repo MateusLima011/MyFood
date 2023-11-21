@@ -9,7 +9,6 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myfood.dao.RecipeDao
 import com.example.myfood.entities.CategoryItems
-import com.example.myfood.entities.Meal
 import com.example.myfood.entities.MealsItems
 import com.example.myfood.entities.Recipes
 import com.example.myfood.entities.converter.CategoryListConverter
@@ -17,8 +16,8 @@ import com.example.myfood.entities.converter.MealListConverter
 
 
 @Database(
-    entities = [Recipes::class, CategoryItems::class, Meal::class, MealsItems::class],
-    version = 2,
+    entities = [Recipes::class, CategoryItems::class, MealsItems::class],
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(CategoryListConverter::class, MealListConverter::class)
@@ -27,11 +26,13 @@ abstract class RecipeDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDao
 
     companion object {
-        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+        private val MIGRATION_2_3: Migration = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DROP TABLE IF EXISTS Category")
+                database.execSQL("DROP TABLE IF EXISTS Meals")
             }
         }
+
         @Volatile
         private var INSTANCE: RecipeDatabase? = null
 
@@ -40,7 +41,8 @@ abstract class RecipeDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext, RecipeDatabase::class.java, "recipe.db"
-                ).addMigrations(MIGRATION_1_2)
+                ).addMigrations(MIGRATION_2_3)
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
