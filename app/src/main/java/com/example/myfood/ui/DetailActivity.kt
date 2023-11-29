@@ -74,7 +74,7 @@ class DetailActivity : AppCompatActivity() {
                         val ingredient = strIngredients[i]
                         val measure = strMeasures[i]
 
-                        if (ingredient.isNotBlank() && measure.isNotBlank()) {
+                        if (ingredient.isNullOrBlank().not() && measure.isNullOrBlank().not()) {
                             ingredientList.add("$ingredient $measure")
                         }
                     }
@@ -82,11 +82,10 @@ class DetailActivity : AppCompatActivity() {
                     val ingredient = ingredientList.joinToString("\n")
                     binding.tvIngredients.text = ingredient
                     binding.tvInstructions.text = state.data.strInstructions
-                    youtubeLink = state.data.strSource
+                    youtubeLink = state.data.strSource.toString()
                 }
 
-                is MealSpecificState.Failure -> {
-                }
+                is MealSpecificState.Failure -> {}
             }
         }
     }

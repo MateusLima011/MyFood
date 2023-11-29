@@ -16,7 +16,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/categoryGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="searchCategoryView, rv_main_category" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/subCategoryGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="rv_sub_category" />
+
             <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gilroy_bold"
@@ -26,14 +41,16 @@
                 android:textSize="@dimen/_20ssp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/searchCategoryView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10ssp"
                 android:layout_marginTop="@dimen/_10ssp"
                 android:layout_marginEnd="@dimen/_10ssp"
+                android:visibility="gone"
                 app:cardCornerRadius="@dimen/_10ssp"
-                app:cardElevation="@dimen/_10ssp">
-
+                app:cardElevation="@dimen/_10ssp"
+                tools:visibility="gone">
 
                 <SearchView
                     android:id="@+id/search_view"
@@ -53,18 +70,40 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10ssp"
                 android:orientation="horizontal"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_rv_main_category" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_rv_main_category"
+                tools:visibility="gone" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <include layout="@layout/loading_shimmer_category_layout" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gilroy_bold"
-                android:paddingStart="@dimen/_10ssp"
+                android:layout_marginStart="@dimen/_10ssp"
                 android:text="Category name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerSubCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <include layout="@layout/loading_shimmer_sub_category_layout" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_sub_category"
@@ -72,11 +111,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10ssp"
                 android:orientation="horizontal"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_rv_sub_category" />
-
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_rv_sub_category"
+                tools:visibility="gone" />
         </LinearLayout>
     </ScrollView>
-
-
 </RelativeLayout>

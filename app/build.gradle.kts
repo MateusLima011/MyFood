@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
+    implementation(libs.facebookShimmer)
     implementation(platform(libs.compose.bom))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -2,27 +2,14 @@ package com.example.myfood
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.example.myfood.databinding.ActivityMainBinding
-import com.example.myfood.injection.getMainViewModel
 import com.example.myfood.ui.BaseActivity
 import com.example.myfood.ui.HomeActivity
-import com.example.myfood.ui.adapter.MainCategoryAdapter
-import com.example.myfood.ui.adapter.SubCategoryAdapter
-import com.example.myfood.ui.viewdata.CategoryItemsState
-import com.example.myfood.ui.viewdata.MealState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : BaseActivity(), EasyPermissions.RationaleCallbacks,
     EasyPermissions.PermissionCallbacks {
-
-    private val mainViewModel by lazy { getMainViewModel(this) }
-    private val categoriesAdapter = MainCategoryAdapter()
-    private val mealsAdapter = SubCategoryAdapter()
-    private var READ_STORAGE = 123
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater).apply { setContentView(root) }
@@ -31,26 +18,10 @@ class MainActivity : BaseActivity(), EasyPermissions.RationaleCallbacks,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupObservers()
         setupUI()
         readStorageTask()
     }
 
-    private fun setupObservers() {
-        mainViewModel.categoryListLiveData.observe(this) { state ->
-            when (state) {
-                is CategoryItemsState.Success -> categoriesAdapter.setData(state.data)
-                is CategoryItemsState.Failure -> handleFailure("Falha ao Buscar Categorias")
-            }
-        }
-
-        mainViewModel.mealListLiveData.observe(this) { state ->
-            when (state) {
-                is MealState.Success -> mealsAdapter.setData(state.data)
-                is MealState.Failure -> handleFailure("Falha ao buscar refeições")
-            }
-        }
-    }
 
     private fun setupUI() {
         binding.btnGetStarted.setOnClickListener {
@@ -58,10 +29,6 @@ class MainActivity : BaseActivity(), EasyPermissions.RationaleCallbacks,
             startActivity(intent)
             finish()
         }
-    }
-
-    private fun handleFailure(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun hasReadStoragePermission(): Boolean {
@@ -106,5 +73,9 @@ class MainActivity : BaseActivity(), EasyPermissions.RationaleCallbacks,
         if (EasyPermissions.somePermissionPermanentlyDenied(this, p1)) {
             AppSettingsDialog.Builder(this).build().show()
         }
+    }
+
+    companion object {
+        private const val READ_STORAGE = 123
     }
 }

@@ -27,6 +27,7 @@ devtoolsksp = "1.5.0-1.0.0-alpha10"
 okhttp = "4.10.0"
 retrofit-serialization = "0.8.0"
 kotlinx = "1.9.0"
+facebookShimmer = "0.5.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -52,6 +53,7 @@ room-compiler = { group = "androidx.room", module = "androidx.room:room-compiler
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-ktx" }
 rounded-image = { module = "com.makeramen:roundedimageview", version.ref = "roundedimage" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+facebookShimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "facebookShimmer" }
 
 easy-permission = { module = "pub.devrel:easypermissions", version.ref = "easy-permission" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }

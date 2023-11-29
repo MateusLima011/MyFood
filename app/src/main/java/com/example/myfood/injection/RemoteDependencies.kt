@@ -10,7 +10,6 @@ import com.example.myfood.repository.Repository
 import com.example.myfood.retrofit.RetrofitClientInstance
 import com.example.myfood.ui.viewmodel.DetailsViewModel
 import com.example.myfood.ui.viewmodel.HomeViewModel
-import com.example.myfood.ui.viewmodel.MainViewModel
 
 private fun getRetrofitService(): GetDataService {
     return RetrofitClientInstance.retrofitInstance.create(GetDataService::class.java)
@@ -26,11 +25,6 @@ fun getRepository(context: Context): Repository {
     val remoteDataSource = RemoteDataSource(getRetrofitService())
     val localDataSource = LocalDataSource(getRecipeDao(context))
     return Repository(remoteDataSource, localDataSource)
-}
-
-fun getMainViewModel(context: Context): MainViewModel {
-    val repository = getRepository(context)
-    return MainViewModel(repository)
 }
 
 fun getHomeViewModel(context: Context): HomeViewModel {

@@ -20,15 +20,17 @@ class Repository(
     suspend fun getCategories(): Result<List<CategoriesViewData>> {
         try {
             val remoteCategories = remoteDataSource.getCategoryList().categories
-            val existingCategories = localDataSource.getCategoriesFromLocal()
-            val (_, newCategories) = remoteCategories.partition { remoteCategory ->
-                existingCategories.none { it.idCategory == remoteCategory.idCategory }
+            val allLocalCategories = localDataSource.getCategoriesFromLocal()
+            val (missingCategories, _) = remoteCategories.partition { remoteCategory ->
+                allLocalCategories.none { it.idCategory == remoteCategory.idCategory }
             }
-            if (newCategories.isNotEmpty()) {
-                localDataSource.insertCategory(newCategories.toCategoryItems())
+            if (missingCategories.isNotEmpty()) {
+                localDataSource.insertCategory(missingCategories.toCategoryItems())
+            } else if (allLocalCategories.isEmpty()) {
+                localDataSource.insertCategory(remoteCategories.toCategoryItems())
             }
-            val updateCategories = localDataSource.getCategoriesFromLocal()
-            return Result.success(updateCategories.mapToViewData())
+            val updatedCategories = localDataSource.getCategoriesFromLocal()
+            return Result.success(updatedCategories.mapToViewData())
         } catch (e: IOException) {
             throw DataFetchException("Failed to fetch categories", e)
         }
