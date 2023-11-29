@@ -35,6 +35,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/_36ssp"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:titleTextColor="@color/white" />
 
@@ -43,7 +44,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_margin="@dimen/_10ssp"
+                android:layout_marginStart="@dimen/_10ssp"
+                android:layout_marginTop="@dimen/_40ssp"
                 android:background="@drawable/btn_bg2"
                 android:paddingStart="@dimen/_12ssp"
                 android:paddingTop="@dimen/_8ssp"
@@ -56,7 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_margin="@dimen/_10ssp"
+                android:layout_marginTop="@dimen/_40ssp"
+                android:layout_marginEnd="@dimen/_10ssp"
                 android:background="@drawable/btn_bg2"
                 android:padding="@dimen/_8ssp"
                 android:src="@drawable/ic_fav_unfill" />
@@ -276,7 +279,7 @@
                 android:id="@+id/btnYoutube"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10ssp"
+                android:layout_marginBottom="@dimen/_48ssp"
                 android:background="@drawable/btn_bg3"
                 android:paddingStart="@dimen/_20ssp"
                 android:paddingEnd="@dimen/_20ssp"

@@ -1,9 +1,11 @@
 package com.example.myfood.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import com.bumptech.glide.Glide
 import com.example.myfood.databinding.ActivityDetailBinding
 import com.example.myfood.injection.getDetailsViewModel
@@ -20,7 +22,7 @@ class DetailActivity : AppCompatActivity() {
     var youtubeLink = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setupStatusBar()
         val id = intent.getStringExtra("id")
         id?.let { homeViewModel.fetchSpecificMeal(it) }
         obseverDetails()
@@ -34,6 +36,11 @@ class DetailActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
         }
+    }
+
+    private fun setupStatusBar() {
+        window.statusBarColor = Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
     }
 
     fun obseverDetails() {
