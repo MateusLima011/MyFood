@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/yellow</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="colorAccent">@color/brown</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="ThemeOverlay.Search" parent="Theme.MyFood">

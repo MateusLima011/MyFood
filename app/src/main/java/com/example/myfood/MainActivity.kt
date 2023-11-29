@@ -1,7 +1,9 @@
 package com.example.myfood
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.myfood.databinding.ActivityMainBinding
 import com.example.myfood.ui.BaseActivity
 import com.example.myfood.ui.HomeActivity
@@ -17,13 +19,18 @@ class MainActivity : BaseActivity(), EasyPermissions.RationaleCallbacks,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setupUI()
         readStorageTask()
     }
 
 
+    private fun setupStatusBar() {
+        window.statusBarColor = Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+    }
+
     private fun setupUI() {
+        setupStatusBar()
         binding.btnGetStarted.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)

@@ -1,12 +1,14 @@
 package com.example.myfood.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.Group
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfood.R
 import com.example.myfood.injection.getHomeViewModel
@@ -25,10 +27,15 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
+        setupStatusBar()
         homeViewModel.loadDataFromDb()
         homeViewModel.getMealDataFromDb("Beef")
         setupObservers()
+    }
+
+    private fun setupStatusBar() {
+        window.statusBarColor = Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
     }
 
     private fun setupObservers() {
